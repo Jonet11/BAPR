@@ -1,0 +1,8 @@
+git lfs install
+git lfs track "*.png" "*.jpg" "*.jpeg" "*.tga" "*.psd" "*.exr" "*.hdr"
+git lfs track "*.wav" "*.mp3" "*.ogg"
+git lfs track "*.fbx" "*.blend" "*.obj" "*.abc"
+git lfs track "*.mp4" "*.mov"
+git add .gitattributes
+git commit -m "Enable Git LFS tracking for large assets"
+git push
