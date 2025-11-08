@@ -19,6 +19,8 @@ public class BattleSystem : MonoBehaviour
     unit playerUnit;
     unit enemyUnit;
 
+    BossSkill Boss;
+
     public TextMeshProUGUI dialogueText;
 
     public BatteHUD platerHUD;
@@ -37,6 +39,7 @@ public class BattleSystem : MonoBehaviour
 
         GameObject enemyGo = Instantiate(enemyPrefab, enemyBS);
         enemyUnit = enemyGo.GetComponent<unit>();
+        Boss = enemyGo.GetComponent<BossSkill>();
 
         dialogueText.text = "The wild " + enemyUnit.unitName + " approaches...";
 
@@ -89,11 +92,13 @@ public class BattleSystem : MonoBehaviour
 
     IEnumerator EnermyTurn()
     {
-        dialogueText.text = enemyUnit.unitName + " attacks!";
+        string skill_name = Boss.Select_Skill();
+        dialogueText.text = enemyUnit.unitName + skill_name;
+
 
         yield return new WaitForSeconds(2f);
 
-        bool isDead = playerUnit.TakeDamage(enemyUnit.damage);
+        bool isDead = playerUnit.TakeDamage(Boss.Attack_Skill(skill_name));
 
        platerHUD.SetHP(playerUnit.currentHP);
         if (isDead)
