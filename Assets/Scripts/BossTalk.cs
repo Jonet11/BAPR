@@ -19,7 +19,7 @@ public class BossTalk : MonoBehaviour
 
     void Awake()
     {
-        obj_text = GameObject.Find("Boss_text");
+        obj_text = GameObject.Find("Boss_Talk_Text");
         Text_Canvas = GameObject.Find("Text_Canvas");
         Main_Canvas = GameObject.Find("Canvas");
 
