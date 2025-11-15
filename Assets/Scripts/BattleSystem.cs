@@ -107,7 +107,6 @@ public class BattleSystem : MonoBehaviour
 
             StartCoroutine(EnermyTurn());
         }
-        BossTalk.ready_text = true;
     }
 
 
@@ -154,11 +153,6 @@ public class BattleSystem : MonoBehaviour
             return;
         }
 
-        if (BossTalk.ready_text) //대사 출력 안될때 공격할 수 있게 이프문
-        {
-            //BossTalk.ready_text = false;
-            
-        }
         Debug.Log($"[BattleSystem] Enemy created: {enemyUnit.name}");
         skillHub.SetUnits(playerUnit, enemyUnit, playerHUD, enemyHUD);
         SHub.SetActive(true);
@@ -173,21 +167,20 @@ public class BattleSystem : MonoBehaviour
             return;
         }
 
-        if (BossTalk.ready_text)
+
+        switch (talk)
         {
-            switch (talk)
-            {
-                case 1:
-                    StartCoroutine(BossTalk.Talking1());
-                    break;
-                case 2:
-                    StartCoroutine(BossTalk.Talking2());
-                    break;
-                default:
-                    StartCoroutine(BossTalk.Talking0());
-                    break;
-            }
+            case 1:
+                StartCoroutine(BossTalk.Talking1());
+                break;
+            case 2:
+                StartCoroutine(BossTalk.Talking2());
+                break;
+            default:
+                StartCoroutine(BossTalk.Talking0());
+                break;
         }
+
     }
 
     public void OnExitButton()

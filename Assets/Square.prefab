@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4411409134741272692}
   - component: {fileID: 3984934078767949913}
   - component: {fileID: 342431579538161217}
+  - component: {fileID: 7081371076794492224}
+  - component: {fileID: 5548375332719968178}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -101,3 +103,28 @@ MonoBehaviour:
   damage: 2
   maxHP: 30
   currentHP: 30
+--- !u!114 &7081371076794492224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3254755666830736827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7be9a9b2c94b4a24ea79531c9f7314da, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5548375332719968178
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3254755666830736827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 040e69740d1ff024fb75ceb810247fed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enermyPrefab: {fileID: 0}

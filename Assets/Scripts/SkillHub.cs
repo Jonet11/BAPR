@@ -110,6 +110,7 @@ public class SkillHub : MonoBehaviour
 
     public void Back()
     {
+
         gameObject.SetActive(false);
     }
 
