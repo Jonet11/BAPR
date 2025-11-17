@@ -7,9 +7,9 @@ using Unity.VisualScripting;
 
 public class BossTalk : MonoBehaviour
 {
-    GameObject obj_text;
     GameObject Text_Canvas;
     GameObject Main_Canvas;
+    BattleSystem BS;
 
     TextMeshProUGUI logue;
 
@@ -17,14 +17,16 @@ public class BossTalk : MonoBehaviour
     void Awake()
     {
         
-        obj_text = GameObject.Find("Boss_Talk_Text");
-        Text_Canvas = GameObject.Find("Text_Canvas");
-        Main_Canvas = GameObject.Find("Canvas");
+        
+        BS = GameObject.Find("BattleSystem").GetComponent<BattleSystem>();
+        Text_Canvas = BS.Text_Canvas;
+        Main_Canvas = BS.Main_Canvas;
+        logue = BS.Bosslogue;
 
-        logue = obj_text.GetComponent<TextMeshProUGUI>();
         Text_Canvas.SetActive(false);
     }
 
+    //대사 출력
     public IEnumerator Talking0()
     {
         Start_text();

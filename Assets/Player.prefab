@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7333657421007453148}
   - component: {fileID: 7835186472938604772}
   - component: {fileID: 8284270433205711112}
+  - component: {fileID: -5903078027615979297}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -99,5 +100,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Player
   damage: 10
-  maxHP: 30
-  currentHP: 25
+  maxHP: 100
+  currentHP: 100
+  administrator: 0
+  high_tide: 0
+  waterfall_armor: 0
+  buff1: 0
+  buff2: 0
+  buff3: 0
+--- !u!114 &-5903078027615979297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 687308632973766216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1f0a02023ad2843b35c21d66f9f72d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

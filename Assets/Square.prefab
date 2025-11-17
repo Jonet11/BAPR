@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 342431579538161217}
   - component: {fileID: 7081371076794492224}
   - component: {fileID: 5548375332719968178}
+  - component: {fileID: 2682262349187905454}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -103,6 +104,12 @@ MonoBehaviour:
   damage: 2
   maxHP: 30
   currentHP: 30
+  administrator: 0
+  high_tide: 0
+  waterfall_armor: 0
+  buff1: 0
+  buff2: 0
+  buff3: 0
 --- !u!114 &7081371076794492224
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,3 +135,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enermyPrefab: {fileID: 0}
+--- !u!114 &2682262349187905454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3254755666830736827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1f0a02023ad2843b35c21d66f9f72d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
