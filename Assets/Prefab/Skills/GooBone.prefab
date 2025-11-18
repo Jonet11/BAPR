@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2798801291576716914}
   - component: {fileID: 2384417206056966489}
   - component: {fileID: 5739385855047398590}
-  - component: {fileID: 6321341010889433495}
   m_Layer: 5
   m_Name: GooBone
   m_TagString: Untagged
@@ -161,18 +160,6 @@ MonoBehaviour:
   skillName: GooBone
   textName: {fileID: 777895691027655381}
   textMana: {fileID: 537929056914469090}
---- !u!114 &6321341010889433495
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2919002614196764858}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccfcdd54bc66a0e468418f173bbd29a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3377330842475402336
 GameObject:
   m_ObjectHideFlags: 0

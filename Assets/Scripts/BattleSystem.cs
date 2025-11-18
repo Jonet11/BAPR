@@ -20,13 +20,9 @@ public class BattleSystem : MonoBehaviour
     unit playerUnit;
     unit enemyUnit;
 
-    StatusHub enemyStatus;
-    StatusHub playerStatus;
-
     BossSkill BossSkill;
     BossTalk BossTalk;
     int talk;
-    public TextMeshProUGUI Bosslogue;
 
     public TextMeshProUGUI dialogueText;
 
@@ -39,6 +35,9 @@ public class BattleSystem : MonoBehaviour
 
     public SkillHub skillHub;
     public GameObject SHub;
+
+    public ItemHub itemHub;
+    public GameObject IHub;
 
     void Start()
     {
@@ -67,15 +66,11 @@ public class BattleSystem : MonoBehaviour
     {
         GameObject playerGo = Instantiate(playerPrefab, playerBS);
         playerUnit = playerGo.GetComponent<unit>();
-        playerStatus = playerGo.GetComponent<StatusHub>();
 
         GameObject enemyGo = Instantiate(enemyPrefab, enemyBS);
         enemyUnit = enemyGo.GetComponent<unit>();
         BossSkill = enemyGo.GetComponent<BossSkill>();
         BossTalk = enemyGo.GetComponent<BossTalk>();
-        enemyStatus = enemyGo.GetComponent<StatusHub>();
-
-
 
         dialogueText.text = "The wild " + enemyUnit.unitName + " approaches...";
 
@@ -167,14 +162,27 @@ public class BattleSystem : MonoBehaviour
         
         
     }
-    //talk 부분에서는 프리팹 보이는거 어떻게 수정할지 미정..
-    //뭔가 나중에 배경화면으로 그냥 가리는것도? 괜찮아보임
+    public void OnItemButton()
+    {
+        if (state != BattleState.PLAYERTURN)
+        {
+            return;
+        }
+
+        Debug.Log($"[BattleSystem] Enemy created: {enemyUnit.name}");
+        itemHub.SetUnits(playerUnit, enemyUnit, playerHUD, enemyHUD);
+        IHub.SetActive(true);
+
+
+    }
+
     public void OnTalkButton()
     {
         if (state != BattleState.PLAYERTURN)
         {
             return;
         }
+
 
         switch (talk)
         {
@@ -190,48 +198,12 @@ public class BattleSystem : MonoBehaviour
         }
 
     }
-    //상태이상 확인 버튼
-    public void OnStatus1Button()
-    {
-        if (state != BattleState.PLAYERTURN)
-        {
-            return;
-        }
-
-        Status_Canvas.gameObject.SetActive(true);
-        Main_Canvas.gameObject.SetActive(false);
-        playerBS.GetChild(0).gameObject.SetActive(false);
-        enemyBS.GetChild(0).gameObject.SetActive(false);
-        enemyStatus.Boss(enemyUnit);
-    }
-    public void OnStatus2Button()
-    {
-        if (state != BattleState.PLAYERTURN)
-        {
-            return;
-        }
-
-        Status_Canvas.gameObject.SetActive(true);
-        Main_Canvas.gameObject.SetActive(false);
-        playerStatus.Player(playerUnit);
-        playerBS.GetChild(0).gameObject.SetActive(false); //프리팹 안보이게
-        enemyBS.GetChild(0).gameObject.SetActive(false);
-    }
-    //스테이터스 테스트용
-    public void OnStatusPlusButton()
-    {
-        enemyUnit.administrator += 1;
-        playerUnit.buff1 += 1;
-        playerUnit.buff2 += 2;
-    }
 
     public void OnExitButton()
     {
         Status_Canvas.gameObject.SetActive(false);
         Main_Canvas.gameObject.SetActive(true);
         Text_Canvas.gameObject.SetActive(false);
-        playerBS.GetChild(0).gameObject.SetActive(true);
-        enemyBS.GetChild(0).gameObject.SetActive(true);
     }
 }
 

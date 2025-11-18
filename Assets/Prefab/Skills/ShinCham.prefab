@@ -148,7 +148,6 @@ GameObject:
   - component: {fileID: 3630086308094110342}
   - component: {fileID: 6380056414928467317}
   - component: {fileID: 1573713257296632504}
-  - component: {fileID: 1398108601850438553}
   m_Layer: 5
   m_Name: ShinCham
   m_TagString: Untagged
@@ -295,18 +294,6 @@ MonoBehaviour:
   skillName: ShinCham
   textName: {fileID: 9116918819842939778}
   textMana: {fileID: 7663853514428490747}
---- !u!114 &1398108601850438553
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3466727969992376283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1cd69fa8b05634f40bdb5f408bece7b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5434568911086912593
 GameObject:
   m_ObjectHideFlags: 0
