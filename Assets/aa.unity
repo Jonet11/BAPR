@@ -1130,13 +1130,13 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 739332735}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 739332736}
+        m_TargetAssemblyTypeName: BattleSystem, Assembly-CSharp
+        m_MethodName: OnItemButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -2531,6 +2531,8 @@ MonoBehaviour:
   Main_Canvas: {fileID: 857158258}
   skillHub: {fileID: 739451026}
   SHub: {fileID: 739451024}
+  itemHub: {fileID: 1491367343}
+  IHub: {fileID: 1491367341}
 --- !u!4 &739332737
 Transform:
   m_ObjectHideFlags: 0
@@ -4412,7 +4414,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f0c0e809d570344c80b081e8fdc836f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iList: []
+  iList:
+  - {fileID: 5446356113131662222, guid: 75a2655f92f34324e83840a5a00da90c, type: 3}
+  - {fileID: 4007739550239159684, guid: 039fa658647b22b4b9ec0c58fccf58f7, type: 3}
+  - {fileID: 6534018963529885527, guid: 998934cc159a5734b88e229bfe08e474, type: 3}
   a: 2
   Content: {fileID: 430946499}
   battleSystem: {fileID: 739332736}
@@ -4462,7 +4467,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.41079685, g: 0.96765494, b: 0.9509338, a: 1}
+  m_Color: {r: 1, g: 0.25943398, b: 0.3145176, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -5757,9 +5762,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 739332736}
-        m_TargetAssemblyTypeName: BattleSystem, Assembly-CSharp
-        m_MethodName: OnExitButton
+      - m_Target: {fileID: 1491367343}
+        m_TargetAssemblyTypeName: ItemHub, Assembly-CSharp
+        m_MethodName: Back
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

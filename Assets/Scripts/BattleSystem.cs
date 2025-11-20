@@ -40,6 +40,9 @@ public class BattleSystem : MonoBehaviour
     public SkillHub skillHub;
     public GameObject SHub;
 
+    public ItemHub itemHub;
+    public GameObject IHub;
+
     void Start()
     {
         state = BattleState.START;
@@ -103,6 +106,7 @@ public class BattleSystem : MonoBehaviour
     IEnumerator turnPass( bool isDead)
     {
         SHub.SetActive(false);
+        IHub.SetActive(false);
 
         yield return new WaitForSeconds(2f);
 
@@ -166,6 +170,19 @@ public class BattleSystem : MonoBehaviour
         SHub.SetActive(true);
         
         
+    }
+    public void OnItemButton()
+    {
+        if (state != BattleState.PLAYERTURN)
+        {
+            return;
+        }
+
+        Debug.Log($"[BattleSystem] Enemy created: {enemyUnit.name}");
+        itemHub.SetUnits(playerUnit, enemyUnit, playerHUD, enemyHUD);
+        IHub.SetActive(true);
+
+
     }
     //talk 부분에서는 프리팹 보이는거 어떻게 수정할지 미정..
     //뭔가 나중에 배경화면으로 그냥 가리는것도? 괜찮아보임
