@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Burst.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
@@ -22,6 +24,7 @@ public class Push : MonoBehaviour
 
     public PolygonCollider2D atkCollider; // 공격
     public LayerMask breakableLayer;
+    public TextMeshProUGUI manaHud;
 
     void Start()
     {
@@ -73,6 +76,7 @@ public class Push : MonoBehaviour
 
     void StartAiming()
     {
+        
         if (arrowUI != null) arrowUI.SetActive(true);
         isAiming = true;
         Time.timeScale = 0f; // 시간 정지
@@ -137,9 +141,52 @@ public class Push : MonoBehaviour
         // 3. 찾은 물체들 파괴
         for (int i = 0; i < hitCount; i++)
         {
-            Destroy(results[i].gameObject);
-            Debug.Log(results[i].name + " 파괴됨!");
+            Collider2D hit = results[i];
+
+            // A. 보스를 맞춘 경우
+            if (hit.CompareTag("Boss"))
+            {
+                
+                unit bossUnit = hit.GetComponent<unit>();
+                if (bossUnit != null)
+                {
+                    StartCoroutine(BossFinisher(bossUnit));
+                }
+            }
+            // B. 일반 장애물(총알 포함)인 경우
+            else
+            {
+                Destroy(hit.gameObject);
+                Debug.Log(hit.name + " 파괴됨!");
+            }
         }
+        IEnumerator BossFinisher(unit bossUnit)
+        {
+            Time.timeScale = 0.01f;
+            int time = manaManager.energy;
+            float breaker = 0.003f;
+            manaManager.enabled = false;
+            for (int j = 0; j < time; j++)
+            {
+                manaHud.text = (time - j).ToString();
+                yield return new WaitForSeconds(breaker);
+            }
+            manaHud.color = Color.red;
+            manaHud.text = 10.ToString();
+
+            for (int j = 0; j < time; j++)
+            {
+                manaHud.text = (j*10).ToString();
+                yield return new WaitForSeconds(0.001f);
+            }
+            bool isdead = bossUnit.TakeDamage(time * 10);
+
+
+        }
+
+
+
     }
+
 
 }
