@@ -57,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
         //body.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.velocity.y); //기본적인 a,d키 움직임(지금은 방향키로도 움직임)
 
         if (Input.GetKey(KeyCode.S)) //s키 누르면 아래로 빠르게 내려감
+                                     //위에 코드 응용해서 아래로 내려가는것도 꾹누르면 빨라지게 바꾸면 좋을듯?
         {
             body.velocity = new Vector2(body.velocity.x, -speed);
         }
