@@ -8,6 +8,10 @@ public class PlayerMovement : MonoBehaviour
     private float speed = 4; //이동속도
     private Rigidbody2D body;
 
+    public bool isBashing = false;//push판정
+    public float acceleration = 50f; // 가속도 (높을수록 반응이 빠름)
+    public float decceleration = 40f; // 감속도 (높을수록 빨리 멈춤)
+
     private bool grounded; //땅에 닿았는지 안닿았는지
 
     private void Awake()
@@ -17,11 +21,13 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        Move();
-
-        if(Input.GetKey(KeyCode.W) && grounded)
+        if (!isBashing)//push중인지 아닌지
         {
-            Jump();
+            Move();
+            if (Input.GetKeyDown(KeyCode.W) && grounded)
+            {
+                Jump();
+            }
         }
     }
 
@@ -35,9 +41,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void Move()
     {
-        body.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.velocity.y); //기본적인 a,d키 움직임(지금은 방향키로도 움직임)
+        // 1. 목표 속도 계산
+        float targetXVelocity = Input.GetAxisRaw("Horizontal") * speed;
 
-        if(Input.GetKey(KeyCode.S)) //s키 누르면 아래로 빠르게 내려감
+        // 2. 가속/감속 수치 결정 (입력이 있으면 가속도, 없으면 감속도 사용)
+        float accelRate = (Mathf.Abs(targetXVelocity) > 0.01f) ? acceleration : decceleration;
+
+        // 3. 현재 속도에서 목표 속도로 'accelRate'만큼만 변화시킴
+        float newX = Mathf.MoveTowards(body.velocity.x, targetXVelocity, accelRate * Time.deltaTime);
+
+        // 4. 최종 속도 대입 (Y축은 건드리지 않음으로써 강타의 Y축 힘 보존)
+        body.velocity = new Vector2(newX, body.velocity.y);
+        
+
+        //body.velocity = new Vector2(Input.GetAxis("Horizontal") * speed, body.velocity.y); //기본적인 a,d키 움직임(지금은 방향키로도 움직임)
+
+        if (Input.GetKey(KeyCode.S)) //s키 누르면 아래로 빠르게 내려감
         {
             body.velocity = new Vector2(body.velocity.x, -speed);
         }
@@ -48,5 +67,7 @@ public class PlayerMovement : MonoBehaviour
         grounded = false;
         body.velocity = new Vector2(body.velocity.x, (speed + 2));
     }
+
+
 
 }
