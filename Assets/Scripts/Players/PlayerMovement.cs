@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private float speed = 4; //이동속도
+    public float speed = 4; //이동속도
     private Rigidbody2D body;
 
     public bool isBashing = false;//push판정

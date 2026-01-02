@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Burst.CompilerServices;
 using UnityEditor;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
@@ -22,6 +24,7 @@ public class Push : MonoBehaviour
 
     public PolygonCollider2D atkCollider; // 공격
     public LayerMask breakableLayer;
+    public TextMeshProUGUI manaHud;
 
     void Start()
     {
@@ -73,9 +76,10 @@ public class Push : MonoBehaviour
 
     void StartAiming()
     {
+        
         if (arrowUI != null) arrowUI.SetActive(true);
         isAiming = true;
-        Time.timeScale = 0f; // 시간 정지
+        Time.timeScale = 0.01f; // 시간 정지
 
         rb.velocity = Vector2.zero; // 속도 정지
         rb.gravityScale = 0f;       // 중력 정지
@@ -101,12 +105,15 @@ public class Push : MonoBehaviour
         // 2. 방향 계산 (목표 지점 - 내 지점) -> 정규화(.normalized)
         Vector2 mypos = rb.position;
         Vector2 launchDirection = ((Vector2)mouseWorldPos - mypos).normalized;
+        int retain = bashForce;
         attack();
+        
         if (arrowUI != null) arrowUI.SetActive(false);
         if (moveScript != null)
         {
             StartCoroutine(BashControlRoutine(moveScript, launchDirection));
         }
+        bashForce = retain;
 
     }
 
@@ -116,7 +123,7 @@ public class Push : MonoBehaviour
         move.isBashing = true; // 이동 차단 시작
         rb.velocity = dir * bashForce; // 실제 발사
         isAiming = false;
-        
+        manaManager.ReduceEnergy(mana);
         // 0.2~0.3초 정도가 '오리'의 날아가는 느낌을 주기에 적당합니다.
         yield return new WaitForSeconds(waitTime);
 
@@ -137,9 +144,53 @@ public class Push : MonoBehaviour
         // 3. 찾은 물체들 파괴
         for (int i = 0; i < hitCount; i++)
         {
-            Destroy(results[i].gameObject);
-            Debug.Log(results[i].name + " 파괴됨!");
+            Collider2D hit = results[i];
+
+            // A. 보스를 맞춘 경우
+            if (hit.CompareTag("Boss"))
+            {
+                
+                unit bossUnit = hit.GetComponent<unit>();
+                if (bossUnit != null)
+                {
+                    StartCoroutine(BossFinisher(bossUnit));
+                }
+            }
+            // B. 일반 장애물(총알 포함)인 경우
+            else
+            {
+                Destroy(hit.gameObject);
+                Debug.Log(hit.name + " 파괴됨!");
+                bashForce = 5;
+            }
         }
+        IEnumerator BossFinisher(unit bossUnit)
+        {
+            Time.timeScale = 0.01f;
+            int time = manaManager.energy;
+            float breaker = 0.002f;
+            manaManager.enabled = false;
+            for (int j = 0; j < time; j++)
+            {
+                manaHud.text = (time - j).ToString();
+                yield return new WaitForSeconds(breaker);
+            }
+            manaHud.color = Color.red;
+            manaHud.text = 10.ToString();
+
+            for (int j = 0; j < time; j++)
+            {
+                manaHud.text = (j*10).ToString();
+                yield return new WaitForSeconds(0.001f);
+            }
+            bool isdead = bossUnit.TakeDamage(time * 10);
+
+
+        }
+
+
+
     }
+
 
 }
