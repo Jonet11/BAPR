@@ -55,7 +55,11 @@ public class ManaManager : MonoBehaviour
         if (energy < amount)
             return false;
 
-        energy -= amount;
+        //energy -= amount;
         return true;
+    }
+    public void ReduceEnergy(int amount)
+    {
+        energy -= amount;
     }
 }
