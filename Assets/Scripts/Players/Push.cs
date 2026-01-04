@@ -4,6 +4,7 @@ using TMPro;
 using Unity.Burst.CompilerServices;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using static UnityEditor.PlayerSettings;
 
 public class Push : MonoBehaviour
@@ -185,7 +186,8 @@ public class Push : MonoBehaviour
             }
             bool isdead = bossUnit.TakeDamage(time * 10);
 
-
+            SceneManager.LoadScene("Scenes_Talk"); //공격 끝나고 씬 전환
+            Time.timeScale = 1f;
         }
 
 

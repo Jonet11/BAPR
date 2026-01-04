@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class unit : MonoBehaviour
 {
+    public static unit Instance;
+
     public int MaxHp;
     public int currentHp;
 
@@ -12,8 +15,9 @@ public class unit : MonoBehaviour
 
     private void Start()
     {
-        setSlider();    
+        setSlider();
     }
+
 
     private void Update()
     {
