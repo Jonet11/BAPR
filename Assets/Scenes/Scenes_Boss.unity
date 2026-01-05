@@ -2307,6 +2307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bed63b8674370b4780c866a7f196430, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hpData: {fileID: 11400000, guid: b69ed1b217378dc45bee72e8bc5c71cd, type: 2}
   MaxHp: 100
   currentHp: 90
   Slider: {fileID: 1273697233}
@@ -2930,6 +2931,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bed63b8674370b4780c866a7f196430, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hpData: {fileID: 11400000, guid: 097b4ac6fec01764aae4419350748c50, type: 2}
   MaxHp: 100
   currentHp: 70
   Slider: {fileID: 575723158}

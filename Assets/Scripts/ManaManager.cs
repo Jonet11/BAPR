@@ -6,30 +6,35 @@ using UnityEngine.UI;
 
 public class ManaManager : MonoBehaviour
 {
+   
     public static ManaManager Instance;
 
     public int energy = 0;
     public int maxEnergy = 30;
+
     public float regenInterval = 1f;
     public TextMeshProUGUI manaHud;
 
 
+
+    /*
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            manaHud.text = energy.ToString();
+            
         }
         else
         {
             Destroy(gameObject);
         }
-    }
+    }*/
 
     private void Start()
     {
+        manaHud.text = energy.ToString();
         StartCoroutine(RegenEnergy());
     }
     private void Update()
