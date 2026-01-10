@@ -7,6 +7,7 @@ TagManager:
   - ground
   - Trash Bin
   - Boss
+  - Shot
   layers:
   - Default
   - TransparentFX

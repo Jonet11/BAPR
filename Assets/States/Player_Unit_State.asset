@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: Player_Unit_State
   m_EditorClassIdentifier: 
   maxHP: 100
-  currentHP: 80
-  kicker: 1
+  currentHP: 70

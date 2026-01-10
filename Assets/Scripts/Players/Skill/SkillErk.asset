@@ -9,8 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b46643c9ffd77f4887c02b51562b7a3, type: 3}
-  m_Name: Boss_Unit_State
+  m_Script: {fileID: 11500000, guid: 70132858a6b990f4b90c6dd51afc29cd, type: 3}
+  m_Name: SkillErk
   m_EditorClassIdentifier: 
-  maxHP: 100
-  currentHP: 30
+  skillName: 
+  cooldown: 0
+  bullet: 2
+  damage: 10
+  bossUnit: {fileID: 0}
+  shot: {fileID: 6029410841029588821, guid: 44f9c971e98c107478705f55630faf4d, type: 3}

@@ -9,8 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b46643c9ffd77f4887c02b51562b7a3, type: 3}
-  m_Name: Boss_Unit_State
+  m_Script: {fileID: 11500000, guid: 6054f27eb784f4745850451e5db413d5, type: 3}
+  m_Name: Skill_chickenlap
   m_EditorClassIdentifier: 
-  maxHP: 100
-  currentHP: 30
+  skillName: 
+  cooldown: 0
+  keepStateBetweenScenes: 1
+  hasBeenUsed: 1
+  heal: 20
+  playerUnit: {fileID: 0}

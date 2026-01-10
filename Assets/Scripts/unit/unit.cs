@@ -23,14 +23,7 @@ public class unit : MonoBehaviour
     private void Start()
     {
         setSlider();
-        // Player의 Start() 등에 추가
-        
-        // 게임 시작 시 혹은 씬 시작 시 필요에 따라 호출
-        if(hpData.kicker != 0)
-        {
-            hpData.ResetStats();
-            hpData.kicker = 0;
-        }
+       
     }
 
 
