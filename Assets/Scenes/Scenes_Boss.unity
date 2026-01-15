@@ -2725,6 +2725,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1918529648}
   - component: {fileID: 1918529649}
+  - component: {fileID: 1918529650}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2761,6 +2762,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerhpData: {fileID: 11400000, guid: 097b4ac6fec01764aae4419350748c50, type: 2}
   bosshpData: {fileID: 11400000, guid: b69ed1b217378dc45bee72e8bc5c71cd, type: 2}
+--- !u!114 &1918529650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1918529647}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce1ba43133ab2e34682a2f48ac0776ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 2069394552}
+  AttackDelete: {fileID: 35751808}
+  player_hp: {fileID: 2069394559}
 --- !u!1 &1965969454
 GameObject:
   m_ObjectHideFlags: 0
