@@ -28,7 +28,18 @@ public class PlayerMovement : MonoBehaviour
             {
                 Jump();
             }
+            // 2. 점프 도중 키를 뗐을 때 (새로 추가)
+            if (Input.GetKeyUp(KeyCode.W))
+            {
+                // 위로 상승 중일 때만 속도를 줄임
+                if (body.velocity.y > 0)
+                {
+                    // 현재 위쪽 속도를 50%만 남기고 깎음 (0.5f는 조절 가능)
+                    body.velocity = new Vector2(body.velocity.x, body.velocity.y * 0.5f);
+                }
+            }
         }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision) //다른 물체에 닿았을때

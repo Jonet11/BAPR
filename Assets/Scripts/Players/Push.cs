@@ -23,9 +23,12 @@ public class Push : MonoBehaviour
     public ManaManager manaManager;
     public int mana;
 
-    public PolygonCollider2D atkCollider; // 공격
+    public Collider2D atkCollider; // 공격
     public LayerMask breakableLayer;
     public TextMeshProUGUI manaHud;
+
+    private Coroutine aimTimerCoroutine;
+    public float ThinkingTime = 2.0f;
 
     void Start()
     {
@@ -48,13 +51,17 @@ public class Push : MonoBehaviour
         // 3. 우클릭을 떼는 순간 (발사 및 정상화)
         if (Input.GetMouseButtonUp(1) && isAiming)
         {
-            EndAiming();
+            EndAiming(true);
         }
         // 조준 중일 때 화살표 회전 로직
         if (isAiming && arrowUI != null)
         {
             RotateArrow();
         }
+        //좌클릭시 조준 중단
+        if (Input.GetMouseButtonDown(0) && isAiming) { EndAiming(false); Debug.Log("조준 상태 중단!"); }
+
+
     }
 
     void RotateArrow()
@@ -77,44 +84,68 @@ public class Push : MonoBehaviour
 
     void StartAiming()
     {
-        
+        manaManager.ReduceEnergy(mana);
         if (arrowUI != null) arrowUI.SetActive(true);
         isAiming = true;
-        Time.timeScale = 0.01f; // 시간 정지
+        Time.timeScale = 0.3f; // 시간 정지
 
         rb.velocity = Vector2.zero; // 속도 정지
         rb.gravityScale = 0f;       // 중력 정지
 
+        //타이머 가동
+        if (aimTimerCoroutine != null) StopCoroutine(aimTimerCoroutine);
+        aimTimerCoroutine = StartCoroutine(AimLimitTimer());
+
         Debug.Log("조준 상태 진입!");
     }
 
-    void EndAiming()
+    IEnumerator AimLimitTimer()
     {
-        
+        // 현실 시간으로 2초 대기 (Time.timeScale이 0.001이라도 2초를 정확히 셉니다)
+        yield return new WaitForSecondsRealtime(ThinkingTime);
+
+        if (isAiming)
+        {
+            EndAiming(false);
+            Debug.Log("조준 시간 초과!");
+        }
+    }
+
+    void EndAiming(bool shoot)
+    {
+        if (aimTimerCoroutine != null)
+        {
+            StopCoroutine(aimTimerCoroutine);
+            aimTimerCoroutine = null;
+        }
 
         isAiming = false;
         Time.timeScale = 1f; // 시간 정상화
         rb.gravityScale = originGravity; // 중력 복구
-
-        Vector3 mousePos = Input.mousePosition;
-        mousePos.z = -Camera.main.transform.position.z; // 보통 카메라가 -10에 있으므로 10이 들어감
-
-        // 1. 마우스 월드 좌표 구하기
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mousePos);
-        mouseWorldPos.z = 0f; // 2D이므로 z축은 0으로 고정
-
-        // 2. 방향 계산 (목표 지점 - 내 지점) -> 정규화(.normalized)
-        Vector2 mypos = rb.position;
-        Vector2 launchDirection = ((Vector2)mouseWorldPos - mypos).normalized;
-        int retain = bashForce;
-        attack();
-        
-        if (arrowUI != null) arrowUI.SetActive(false);
-        if (moveScript != null)
+       // if (arrowUI != null) arrowUI.SetActive(false);
+        if (shoot == true)
         {
-            StartCoroutine(BashControlRoutine(moveScript, launchDirection));
+            Vector3 mousePos = Input.mousePosition;
+            mousePos.z = -Camera.main.transform.position.z; // 보통 카메라가 -10에 있으므로 10이 들어감
+
+            // 1. 마우스 월드 좌표 구하기
+            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            mouseWorldPos.z = 0f; // 2D이므로 z축은 0으로 고정
+
+            // 2. 방향 계산 (목표 지점 - 내 지점) -> 정규화(.normalized)
+            Vector2 mypos = rb.position;
+            Vector2 launchDirection = ((Vector2)mouseWorldPos - mypos).normalized;
+            int retain = bashForce;
+            attack();
+
+            
+            if (moveScript != null)
+            {
+                StartCoroutine(BashControlRoutine(moveScript, launchDirection));
+            }
+            bashForce = retain;
         }
-        bashForce = retain;
+        if (arrowUI != null) arrowUI.SetActive(false);
 
     }
 
@@ -124,7 +155,7 @@ public class Push : MonoBehaviour
         move.isBashing = true; // 이동 차단 시작
         rb.velocity = dir * bashForce; // 실제 발사
         isAiming = false;
-        manaManager.ReduceEnergy(mana);
+        //manaManager.ReduceEnergy(mana);
         // 0.2~0.3초 정도가 '오리'의 날아가는 느낌을 주기에 적당합니다.
         yield return new WaitForSeconds(waitTime);
 
@@ -132,8 +163,7 @@ public class Push : MonoBehaviour
     }
 
     void attack()
-    {
-        // 1. 삼각형 콜라이더와 겹치는 모든 콜라이더를 가져올 리스트 준비
+    {/*        // 1. 삼각형 콜라이더와 겹치는 모든 콜라이더를 가져올 리스트 준비
         List<Collider2D> results = new List<Collider2D>();
         ContactFilter2D filter = new ContactFilter2D();
         filter.SetLayerMask(breakableLayer); // 장애물 레이어만 걸러내기
@@ -141,6 +171,34 @@ public class Push : MonoBehaviour
 
         // 2. 삼각형 범위 내에 있는 충돌체 찾기
         int hitCount = atkCollider.OverlapCollider(filter, results);
+
+
+        if (atkCollider == null)
+        {
+            Debug.LogError("공격 콜라이더가 연결되지 않았습니다!");
+            return;
+        }*/
+
+
+
+        // 1. 실제로 콜라이더가 켜져 있는지 확인
+        Debug.Log($"공격 시작! 콜라이더 상태: {atkCollider.enabled}, 오브젝트: {atkCollider.gameObject.activeSelf}");
+
+        List<Collider2D> results = new List<Collider2D>();
+        ContactFilter2D filter = new ContactFilter2D();
+        filter.SetLayerMask(breakableLayer);
+        filter.useTriggers = true;
+
+        // 2. 필터 없이 그냥 겹치는 게 있는지 확인 (범위 자체의 문제인지 확인)
+        int debugCount = Physics2D.OverlapCollider(atkCollider, new ContactFilter2D().NoFilter(), results);
+        Debug.Log($"필터 없이 감지된 총 물체 수: {debugCount}");
+        Physics2D.SyncTransforms();
+
+        int hitCount = atkCollider.OverlapCollider(filter, results);
+        Debug.Log($"레이어 필터 적용 후 감지된 수: {hitCount}");
+
+
+        
 
         // 3. 찾은 물체들 파괴
         for (int i = 0; i < hitCount; i++)
@@ -169,21 +227,17 @@ public class Push : MonoBehaviour
         {
             Time.timeScale = 0.01f;
             int time = manaManager.energy;
-            float breaker = 0.002f;
+            float breaker = 0.5f/time;
             manaManager.enabled = false;
             for (int j = 0; j < time; j++)
             {
                 manaHud.text = (time - j).ToString();
-                yield return new WaitForSeconds(breaker);
+                yield return new WaitForSecondsRealtime(breaker);
             }
             manaHud.color = Color.red;
             manaHud.text = 10.ToString();
 
-            for (int j = 0; j < time; j++)
-            {
-                manaHud.text = (j*10).ToString();
-                yield return new WaitForSeconds(0.001f);
-            }
+            manaHud.text = (time * 10).ToString();
             bool isdead = bossUnit.TakeDamage(time * 10);
 
             SceneManager.LoadScene("Scenes_Talk"); //공격 끝나고 씬 전환
