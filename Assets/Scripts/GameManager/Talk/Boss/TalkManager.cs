@@ -1,26 +1,27 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
 using UnityEngine.UI;
 using Unity.VisualScripting;
+using System.IO;
 
-//º¸½º - ´ëÈ­ °ü¸®½ºÅ©¸³Æ®
+//ë³´ìŠ¤ - ëŒ€í™” ê´€ë¦¬ìŠ¤í¬ë¦½íŠ¸
 public class TalkManager : MonoBehaviour
 {
     public Unit_State player_state;
     public Unit_State boss_state;
     public Unit_State Talk_ID;
-    //int Current_Talk_ID = 1000; //ÀÓ½Ã·Î º¸½º Ã¹ ´ëÈ­ ½ÃÀÛÇÏ°Ô ¸¸µé¾îµÒ
+    //int Current_Talk_ID = 1000; //ì„ì‹œë¡œ ë³´ìŠ¤ ì²« ëŒ€í™” ì‹œì‘í•˜ê²Œ ë§Œë“¤ì–´ë‘ 
 
     public TextMeshProUGUI Talk_Text_UI;
     public Image Talk_Icon;
 
     int talkIndex;
-    Dictionary<int, string[]> talkData; //ÇÑ Ä³¸¯ÅÍ ´ëÈ­ÀúÀå
-    Dictionary<int, int> talkData_num; //¹İº¹È½¼ö ÀúÀå
-    Dictionary<int, int[]> talkData_Talking; //¿¬¼Ó ´ëÈ­ ÀúÀå
+    Dictionary<int, string[]> talkData; //í•œ ìºë¦­í„° ëŒ€í™”ì €ì¥
+    Dictionary<int, int> talkData_num; //ë°˜ë³µíšŸìˆ˜ ì €ì¥
+    Dictionary<int, int[]> talkData_Talking; //ì—°ì† ëŒ€í™” ì €ì¥
 
     void Awake()
     {
@@ -34,19 +35,20 @@ public class TalkManager : MonoBehaviour
     int current_talk = 10;
     private void Update()
     {
-        if(Input.GetMouseButtonUp(0)) //º¸½º ´ëÈ­¸¸ ±¸ÇöÇØµÒ..
+        if(Input.GetMouseButtonUp(0)) //ë³´ìŠ¤ ëŒ€í™”ë§Œ êµ¬í˜„í•´ë‘ ..
         {
-            if (boss_state.currentHP > 0 && current_talk != 0) //º¸½º »ì¾ÆÀÖÀ½
+            
+            if (boss_state.currentHP > 0 && current_talk != 0) //ë³´ìŠ¤ ì‚´ì•„ìˆìŒ
             {
                 current_talk = 1000;
                 Boss_Talk_1(1000);
             }
-            else if(boss_state.currentHP <= 0 && current_talk != 0) //º¸½º Á×À½
+            else if(boss_state.currentHP <= 0 && current_talk != 0) //ë³´ìŠ¤ ì£½ìŒ
             {
                 current_talk = 1100;
                 Boss_Talk_2(1100);
             }
-            else//±âº»´ë»ç
+            else//ê¸°ë³¸ëŒ€ì‚¬
             {
                 //current_talk = 0;
                 Print_Talk(0, current_talk);
@@ -54,48 +56,41 @@ public class TalkManager : MonoBehaviour
             }
         }
     }
-
+  //ëŒ€í™”ë¡ ì œì‘í•˜ë©´ì„œ íŒŒì¼ ë¶ˆëŸ¬ì˜¤ëŠ”ê±¸ë¡œ ì €ì¥í•˜ëŠ”ê±° ìˆ˜ì •..
     void GenerateData()
     {
-        //id = 0 : ±âº»´ë»ç
+        //id = 0 : ê¸°ë³¸ëŒ€ì‚¬
         talkData.Add(0, new string[] { "talking" });
         talkData_num.Add(0, 0);
 
-        //id = 1000 : Ã¹ º¸½º Á¶¿ì ´ë»ç
+        //id = 1000 : ì²« ë³´ìŠ¤ ì¡°ìš° ëŒ€ì‚¬
         talkData_Talking.Add(1000, new int[] { 1000, 2000, 1010, 2010 });
         talkData_num.Add(1000, 0);
-        //id = 1000 : º¸½º ´ë»ç 1
+        //id = 1000 : ë³´ìŠ¤ ëŒ€ì‚¬ 1
         talkData.Add(1000, new string[] { "hi", "new" });
-        //id = 1010 : º¸½º ´ë»ç 2
+        //id = 1010 : ë³´ìŠ¤ ëŒ€ì‚¬ 2
         talkData.Add(1010, new string[] { "what?" });
-        //id = 2000 : ÇÃ·¹ÀÌ¾î ´ë»ç 1
+        //id = 2000 : í”Œë ˆì´ì–´ ëŒ€ì‚¬ 1
         talkData.Add(2000, new string[] {"???", "..." });
-        //id = 2010 : ÇÃ·¹ÀÌ¾î ´ë»ç 2
+        //id = 2010 : í”Œë ˆì´ì–´ ëŒ€ì‚¬ 2
         talkData.Add(2010, new string[] { "a", "b", "c" });
 
-        //id = 1100 : º¸½º Á×À½ ´ë»ç
+        //id = 1100 : ë³´ìŠ¤ ì£½ìŒ ëŒ€ì‚¬
         talkData_Talking.Add(1100, new int[] { 1100, 2100 });
         talkData_num.Add(1100, 0);
-        //id = 1100 : º¸½º Á×À½ ´ë»ç 1
+        //id = 1100 : ë³´ìŠ¤ ì£½ìŒ ëŒ€ì‚¬ 1
         talkData.Add(1100, new string[] { "nooo" });
-        //id = 2100 : º¸½º Á×À½ ÇÃ·¹ÀÌ¾î ¹İÀÀ ´ë»ç 1
+        //id = 2100 : ë³´ìŠ¤ ì£½ìŒ í”Œë ˆì´ì–´ ë°˜ì‘ ëŒ€ì‚¬ 1
         talkData.Add(2100, new string[] { "yaho!" });
 
-        //id = 100 : npc ´ëÈ­ 1
-        talkData.Add(100, new string[] { "hello" });
-        talkData_num.Add(100, 0);
-
-        //id = 200 : npc ´ëÈ­ 2
-        talkData.Add(200, new string[] { "1", "2", "3", "4" });
-        talkData_num.Add(200, 0);
     }
 
-    public string GetTalk(int id, int talkIndex) //ObjectÀÇ id , string¹è¿­ÀÇ index
+    public string GetTalk(int id, int talkIndex) //Objectì˜ id , stringë°°ì—´ì˜ index
     {
-        if (talkIndex == talkData[id].Length) //ÇØ´ç id¸¦ °¡Áö´Â string¹è¿­ÀÇ ±æÀÌ¿Í °°À½ 
+        if (talkIndex == talkData[id].Length) //í•´ë‹¹ idë¥¼ ê°€ì§€ëŠ” stringë°°ì—´ì˜ ê¸¸ì´ì™€ ê°™ìŒ 
             return null;
         else
-            return talkData[id][talkIndex]; //ÇØ´ç ¾ÆÀÌµğÀÇ ÇØ´çÇÏ´Â ´ë»ç¸¦ ¹İÈ¯ 
+            return talkData[id][talkIndex]; //í•´ë‹¹ ì•„ì´ë””ì˜ í•´ë‹¹í•˜ëŠ” ëŒ€ì‚¬ë¥¼ ë°˜í™˜ 
     }
 
     /*
@@ -105,42 +100,42 @@ public class TalkManager : MonoBehaviour
         Debug.Log("mouse up");
     }
     */
-    public void Print_Talk(int id, int num) //id¿Í ¹İº¹È½¼öÀúÀå¼Ò º¸³»±â
+    public void Print_Talk(int id, int num) //idì™€ ë°˜ë³µíšŸìˆ˜ì €ì¥ì†Œ ë³´ë‚´ê¸°
     {
         string talkData = GetTalk(id, talkIndex);
 
-        if (talkData == null) //¹İÈ¯µÈ °ÍÀÌ nullÀÌ¸é ´õÀÌ»ó ³²Àº ´ë»ç°¡ ¾øÀ½
+        if (talkData == null) //ë°˜í™˜ëœ ê²ƒì´ nullì´ë©´ ë”ì´ìƒ ë‚¨ì€ ëŒ€ì‚¬ê°€ ì—†ìŒ
         {
-            talkIndex = 0; //talkÀÎµ¦½º´Â ´ÙÀ½¿¡ ¶Ç »ç¿ëµÇ¹Ç·Î ÃÊ±âÈ­ÇØ¾ßÇÔ
+            talkIndex = 0; //talkì¸ë±ìŠ¤ëŠ” ë‹¤ìŒì— ë˜ ì‚¬ìš©ë˜ë¯€ë¡œ ì´ˆê¸°í™”í•´ì•¼í•¨
             Debug.Log("talk_end");
             talkData_num[num] += 1;
-            //Print_Talk(id, num); ³¡³ª¸é ´ÙÀ½¹®Àå ¹Ù·Î Àç»ı..ÀÌ ¾ÈµÊ..
-            return; //void¿¡¼­ÀÇ return ÇÔ¼ö °­Á¦Á¾·á (¹ØÀÇ ÄÚµå´Â ½ÇÇàµÇÁö ¾ÊÀ½)
+            //Print_Talk(id, num); ëë‚˜ë©´ ë‹¤ìŒë¬¸ì¥ ë°”ë¡œ ì¬ìƒ..ì´ ì•ˆë¨..
+            return; //voidì—ì„œì˜ return í•¨ìˆ˜ ê°•ì œì¢…ë£Œ (ë°‘ì˜ ì½”ë“œëŠ” ì‹¤í–‰ë˜ì§€ ì•ŠìŒ)
         }
 
-        //´ÙÀ½ ¹®ÀåÀ» °¡Á®¿À±â À§ÇØ talkDataÀÇ ÀÎµ¦½º¸¦ ´Ã¸²
+        //ë‹¤ìŒ ë¬¸ì¥ì„ ê°€ì ¸ì˜¤ê¸° ìœ„í•´ talkDataì˜ ì¸ë±ìŠ¤ë¥¼ ëŠ˜ë¦¼
         talkIndex++;
         Debug.Log("talk");
         Talk_Text_UI.text = talkData;
 
-        //³ªÁß¿¡ ÀÌ¹ÌÁöµµ °¡Á®¿À°Ô ¸¸µé¾îµÎ±â
-        //Áö±İÀº ÀÌ¸§ È®ÀÎÇØ¼­ »ö º¯°æ..Á¤µµ·Î ±¸ÇöÇØº½
-        if (id - 2000 < 0) // º¸½º
+        //ë‚˜ì¤‘ì— ì´ë¯¸ì§€ë„ ê°€ì ¸ì˜¤ê²Œ ë§Œë“¤ì–´ë‘ê¸°
+        //ì§€ê¸ˆì€ ì´ë¦„ í™•ì¸í•´ì„œ ìƒ‰ ë³€ê²½..ì •ë„ë¡œ êµ¬í˜„í•´ë´„
+        if (id - 2000 < 0) // ë³´ìŠ¤
         {
             Talk_Icon.color = new Color(255, 0, 0);
         }
-        else if(id - 2000 >= 0) // ÇÃ·¹ÀÌ¾î
+        else if(id - 2000 >= 0) // í”Œë ˆì´ì–´
         {
             Talk_Icon.color = new Color(0, 0, 255);
         }
 
-        if (id == 0) //±âº»´ëÈ­
+        if (id == 0) //ê¸°ë³¸ëŒ€í™”
             Talk_Icon.color = new Color(0, 0, 0);
     }
 
     bool Repeat_Text(int id)
     {
-        if (talkData_num[id] >= 1) //ÇÑ¹ø ´ëÈ­ µè°í³ª¸é ±âº» ´ëÈ­ Ãâ·Â
+        if (talkData_num[id] >= 1) //í•œë²ˆ ëŒ€í™” ë“£ê³ ë‚˜ë©´ ê¸°ë³¸ ëŒ€í™” ì¶œë ¥
         {
             return true;
         }
@@ -158,9 +153,10 @@ public class TalkManager : MonoBehaviour
 
         Print_Talk(printID, current_talk);
         
-        if (Repeat_Text(current_talk) && talkData_num[id] >= talkData_Talking[id].Length) //ÀÌ¹Ì µé¾ú´ÂÁö È®ÀÎ
+        if (Repeat_Text(current_talk) && talkData_num[id] >= talkData_Talking[id].Length) //ì´ë¯¸ ë“¤ì—ˆëŠ”ì§€ í™•ì¸
         {
             current_talk = 0;
+            SceneManager.LoadScene("Scenes_Boss");
             return;
         }
     }
@@ -170,9 +166,10 @@ public class TalkManager : MonoBehaviour
         printID = talkData_Talking[id][talkData_num[id]];
 
         Print_Talk(printID, current_talk);
-        if (Repeat_Text(current_talk) && talkData_num[id] >= talkData_Talking[id].Length) //ÀÌ¹Ì µé¾ú´ÂÁö È®ÀÎ
+        if (Repeat_Text(current_talk) && talkData_num[id] >= talkData_Talking[id].Length) //ì´ë¯¸ ë“¤ì—ˆëŠ”ì§€ í™•ì¸
         {
             current_talk = 0;
+            SceneManager.LoadScene("Scenes_Adventure");
             return;
         }
     }
