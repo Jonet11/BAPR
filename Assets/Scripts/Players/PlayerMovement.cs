@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public bool isBashing = false;//push판정
     public float acceleration = 50f; // 가속도 (높을수록 반응이 빠름)
     public float decceleration = 40f; // 감속도 (높을수록 빨리 멈춤)
-
+ 
     private bool grounded; //땅에 닿았는지 안닿았는지
 
     private void Awake()
