@@ -12,6 +12,7 @@ public class QuestManager : MonoBehaviour
 
     public void Awake()
     {
+        //ÀÏ´Ü »ùÇÃ
         AddQuest();
         FixQuest(0, "Find Apple", "apple", "money + 100");
 
